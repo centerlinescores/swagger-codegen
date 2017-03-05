@@ -17,21 +17,22 @@ namespace {{packageName}}.API.Controllers
     private readonly IConfigurationRoot _config;
     private readonly ApiSettings _apiSettings;
 
-    public {{classname}}Controller({{packageName}}Context db, IConfigurationRoot config, IOptions<ApiSettings> apiSettings) {
-        this._db = db;
-        this._config = config;
-        this._apiSettings = apiSettings.Value;
-    }
     {{#operations}}
     /// <summary>
     /// API Controller for {{class}}
     /// </summary>{{#description}}
     [Description("{{description}}")]{{/description}}
     public class {{classname}}Controller : Controller
-    { {{#operation}}
-
+    {
         private DomainRepository _domain = new DomainRepository(_db);
-
+ 
+        public {{classname}}Controller({{packageName}}Context db, IConfigurationRoot config, IOptions<ApiSettings> apiSettings) {
+            this._domain = new DomainRepository(db);
+            this._config = config;
+            this._apiSettings = apiSettings.Value;
+        }
+        {{#operation}}
+     
         /// <summary>
         /// {{#summary}}{{summary}}{{/summary}}
         /// </summary>
