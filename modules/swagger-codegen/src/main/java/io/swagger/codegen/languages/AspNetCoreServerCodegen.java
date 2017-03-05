@@ -92,7 +92,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         String packageFolder = sourceFolder + File.separator + packageName;
 
-        SupportingFile.add(new SupportingFile("DomainRepository.mustache", packageFolder, "DomainRepository.cs"))
+        SupportingFile.add(new SupportingFile("DomainRepository.mustache", packageFolder, "DomainRepository.cs"));
         // supportingFiles.add(new SupportingFile("NuGet.Config", "", "NuGet.Config"));
         // supportingFiles.add(new SupportingFile("global.json", "", "global.json"));
         // supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
