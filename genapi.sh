@@ -1,10 +1,11 @@
 build='n'
 push='n'
+msg='No LogMessage'
 
 while [[ "$#" > 0 ]]; do case $1 in
     --build) build='y';;
     --push) push='y';;
-    *) break;;
+    *) msg=$1;;
   esac; shift; shift
 done
 
@@ -31,14 +32,14 @@ echo -e "\e[34m --> Generate API code...\e[0m"
 
 if [ $push == 'y' ]
 then 
-    echo -e "\e[34m --> Pushing API changes to git repo...\e[0m"
+    echo -e "\e[34m --> Pushing API changes to git repo...\n With Message= $msg \e[0m"
     cp ./mcgnetcore/src/CenterlineScores/Models/* ~/cls-core/cls-model/Models/api/
-    cp ./mcgnetcore/src/CenterlineScores/Controllers/*Api.cs ~/cls-core/cls-core/Controllers/api/
-    cp ./mcgnetcore/src/CenterlineScores/Controllers/*domain*.cs ~/cls-core/cls-model/Data/
+    cp ./mcgnetcore/src/CenterlineScores/Controllers/*.cs ~/cls-core/cls-core/Controllers/api/
+    cp ./mcgnetcore/src/CenterlineScores/Controllers/Data/*.cs ~/cls-core/cls-model/Data/
     cp ./mcgnetcore/src/CenterlineScores/DomainRepository.cs ~/cls-core/cls-model/Data/
     cd ~/cls-core
     export DT=`date +%Y%m%d-%H%M%S`
     git add -A
-    git commit -m "Add/Update API files from Swagger specification as of $DT"
+    git commit -m "Swagger API Update of $DT : $msg"
     git push
 fi
