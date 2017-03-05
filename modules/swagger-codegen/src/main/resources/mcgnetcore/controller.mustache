@@ -17,7 +17,7 @@ namespace {{packageName}}.API.Controllers
     private readonly IConfigurationRoot _config;
     private readonly ApiSettings _apiSettings;
 
-    public {{classname}}Controller(clsContext db, IConfigurationRoot config, IOptions<ApiSettings> apiSettings) {
+    public {{classname}}Controller({{packageName}}Context db, IConfigurationRoot config, IOptions<ApiSettings> apiSettings) {
         this._db = db;
         this._config = config;
         this._apiSettings = apiSettings.Value;
