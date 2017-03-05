@@ -27,6 +27,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("controller.mustache", ".cs");
+        apiTemplateFiles.put("domainRepositoryOps.mustache", ".cs");
 
         // contextually reserved words
         setReservedWordsLowerCase(

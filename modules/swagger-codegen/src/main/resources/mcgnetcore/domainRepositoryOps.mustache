@@ -1,0 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace {{packageName}}.Data
+{
+    public partial class DomainRepository
+    {
+        {{#operations}}
+        public {{#returnType}}{{>returnDataType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        {
+            throw new NotImplementedException();
+        }
+        {{/operations}}
+    }
+}
