@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace {{packageName}}.Data
 {
+    {{#operations}}
     public partial class DomainRepository
     {
-        {{#operations}}
+        {{#operation}}
         public {{#returnType}}{{>returnDataType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
             throw new NotImplementedException();
         }
-        {{/operations}}
+        {{/operation}}
     }
+    {{/operations}}
 }
