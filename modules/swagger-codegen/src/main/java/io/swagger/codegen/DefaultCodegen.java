@@ -3099,7 +3099,10 @@ public class DefaultCodegen {
 
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
-        return apiFileFolder() + '/' + toApiFilename(tag) + suffix;
+        String fname = apiFileFolder() + '/' + toApiFilename(tag) + suffix;
+        if(templateName.contains("domain"))
+            fname = apiFileFolder() + '/Data/' + tag + "_DomainRepositoryOps" + suffix;
+        return fname;
     }
 
     /**
