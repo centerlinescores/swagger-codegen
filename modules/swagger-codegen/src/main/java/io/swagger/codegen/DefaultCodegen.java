@@ -3101,7 +3101,7 @@ public class DefaultCodegen {
         String suffix = apiTemplateFiles().get(templateName);
         String fname = apiFileFolder() + '/' + toApiFilename(tag) + suffix;
         if(templateName.contains("domain"))
-            fname = apiFileFolder() + '/Data/' + tag + "_DomainRepositoryOps" + suffix;
+            fname = apiFileFolder() + "/Data/" + tag + "_DomainRepositoryOps" + suffix;
         return fname;
     }
 
