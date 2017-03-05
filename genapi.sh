@@ -1,6 +1,11 @@
 build='n'
 push='n'
-msg='No LogMessage'
+
+for msg; do true; done
+# if [$msg == '--push']
+# then
+#     msg='No Log Message'
+# fi
 
 while [[ "$#" > 0 ]]; do case $1 in
     --build) build='y';;
@@ -8,12 +13,6 @@ while [[ "$#" > 0 ]]; do case $1 in
     *) break;;
   esac; shift; shift  
 done
-
-for msg; do true; done
-if ($msg == '--push')
-then
-    msg='No Log Message'
-fi
 
 echo -e "\e[34m --> Pull current CLS-Core...\e[0m"
 cd ~/cls-core/
