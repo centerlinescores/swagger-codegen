@@ -9,10 +9,21 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using {{packageName}}.Models;
+using {{packageName}}.API.Models;
 
-namespace {{packageName}}.Controllers
-{ {{#operations}}
+namespace {{packageName}}.API.Controllers
+{ 
+    private {{packageName}}Context _db;
+    private readonly IConfigurationRoot _config;
+    private readonly ApiSettings _apiSettings;
+
+    public {{classname}}Controller(clsContext db, IConfigurationRoot config, IOptions<ApiSettings> apiSettings) {
+        this._db = db;
+        this._config = config;
+        this._apiSettings = apiSettings.Value;
+    }
+    
+    {{#operations}}
     /// <summary>
     /// API Controller for {{class}}
     /// </summary>{{#description}}
@@ -20,7 +31,7 @@ namespace {{packageName}}.Controllers
     public class {{classname}}Controller : Controller
     { {{#operation}}
 
-        private DomainRepository _domain = new DomainRepository();
+        private DomainRepository _domain = new DomainRepository(_db);
 
         /// <summary>
         /// {{#summary}}{{summary}}{{/summary}}
@@ -38,10 +49,11 @@ namespace {{packageName}}.Controllers
                 {{#returnType}}
                     {{>returnDataType}} returnData = _domain.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
                     return new OkObjectResult(returnData);{{/returnType}}{{^returnType}}
-                    throw new NotImplementedException();{{/returnType}}
+                    return Ok();{{/returnType}}
             }
             catch (Exception e)
             {
+                //TODO:  Get more detail about return Error?  Throw custom Error types/messages within the implementation?
                 return BadRequest(e.Message);
             }
         }

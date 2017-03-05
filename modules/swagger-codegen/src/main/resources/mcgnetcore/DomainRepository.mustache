@@ -1,0 +1,32 @@
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace {{packageName}}.Data
+{
+    public partial class DomainRepository
+    {
+        private {{packageName}}Context _db;
+        public DomainRepository({{packageName}}Context _db)
+        {
+            this._db = _db;
+        }
+
+        {{#operations}}
+        public {{#returnType}}{{>returnDataType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        {
+            throw new NotImplementedException();
+        }
+        {{/operations}}
+
+        public class Error
+        {
+            public int ErrorCode { get; set; }
+            public int statusCode { get; set; }
+            public string ErrorMessage { get; set; }
+            public object ErrorData { get; set; }
+        }
+    }
+}
