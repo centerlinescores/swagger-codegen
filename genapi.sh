@@ -5,9 +5,15 @@ msg='No LogMessage'
 while [[ "$#" > 0 ]]; do case $1 in
     --build) build='y';;
     --push) push='y';;
-    *) msg=$1;;
-  esac; shift; shift
+    *) break;;
+  esac; shift; shift  
 done
+
+for msg; do true; done
+if ($msg == '--push')
+then
+    msg='No Log Message'
+fi
 
 echo -e "\e[34m --> Pull current CLS-Core...\e[0m"
 cd ~/cls-core/
