@@ -1,3 +1,5 @@
+/mcgnetcore/
+swagger.yml
 *.iml
 out/
 *.ipr
