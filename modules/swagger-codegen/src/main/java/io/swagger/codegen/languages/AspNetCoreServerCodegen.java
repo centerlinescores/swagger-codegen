@@ -88,7 +88,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         additionalProperties.put("packageGuid", packageGuid);
 
         apiPackage = packageName + ".Controllers";
-        modelPackage = packageName + ".Models";
+        modelPackage = packageName + ".ViewModels";
 
         String packageFolder = sourceFolder + File.separator + packageName;
 

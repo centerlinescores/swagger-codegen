@@ -9,17 +9,18 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Swashbuckle.SwaggerGen.Annotations;
 using {{packageName}}.Models;
 
 namespace {{packageName}}.Controllers
 { {{#operations}}
     /// <summary>
-    /// {{description}}
+    /// API Controller for {{class}}
     /// </summary>{{#description}}
     [Description("{{description}}")]{{/description}}
     public class {{classname}}Controller : Controller
     { {{#operation}}
+
+        private DomainRepository _domain = new DomainRepository();
 
         /// <summary>
         /// {{#summary}}{{summary}}{{/summary}}
@@ -27,19 +28,24 @@ namespace {{packageName}}.Controllers
         {{#notes}}/// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
         /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
-        [{{httpMethod}}]
-        [Route("{{basePathWithoutHost}}{{path}}")]
-        [SwaggerOperation("{{operationId}}")]{{#returnType}}
-        [SwaggerResponse(200, type: typeof({{&returnType}}))]{{/returnType}}
+        [{{httpMethod}}("{{basePathWithoutHost}}{{path}}")]
         public virtual {{#returnType}}IActionResult{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
-        { {{#returnType}}
-            string exampleJson = null;
-            {{#isListCollection}}{{>listReturn}}{{/isListCollection}}{{^isListCollection}}{{#isMapContainer}}{{>mapReturn}}{{/isMapContainer}}{{^isMapContainer}}{{>objectReturn}}{{/isMapContainer}}{{/isListCollection}}
-            {{!TODO: defaultResponse, examples, auth, consumes, produces, nickname, externalDocs, imports, security}}
-            return new ObjectResult(example);{{/returnType}}{{^returnType}}
-            throw new NotImplementedException();{{/returnType}}
+        { 
+            // TODO: Implement Swagger exampleData JSON for placeholder operation
+            // var example = exampleJson != null ? JsonConvert.DeserializeObject
+            try
+            {
+                {{#returnType}}
+                    {{>returnDataType}} returnData = _domain.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+                    return new OkObjectResult(returnData);{{/returnType}}{{^returnType}}
+                    throw new NotImplementedException();{{/returnType}}
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
-{{/operation}}
+    {{/operation}}
     }
 {{/operations}}
 }
