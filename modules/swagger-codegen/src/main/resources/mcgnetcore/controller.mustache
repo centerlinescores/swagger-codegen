@@ -10,13 +10,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using {{packageName}}.API.Models;
+using {{packageName}}.Config;
+using {{packageName}}.Data;
+using Microsoft.Extensions.Options;
 
 namespace {{packageName}}.API.Controllers
 { 
-    private {{packageName}}Context _db;
-    private readonly IConfigurationRoot _config;
-    private readonly ApiSettings _apiSettings;
-
     {{#operations}}
     /// <summary>
     /// API Controller for {{class}}
@@ -24,8 +23,11 @@ namespace {{packageName}}.API.Controllers
     [Description("{{description}}")]{{/description}}
     public class {{classname}}Controller : Controller
     {
-        private DomainRepository _domain = new DomainRepository(_db);
- 
+        //private {{packageName}}Context _db;
+        private readonly IConfigurationRoot _config;
+        private readonly ApiSettings _apiSettings;
+        private DomainRepository _domain;
+
         public {{classname}}Controller({{packageName}}Context db, IConfigurationRoot config, IOptions<ApiSettings> apiSettings) {
             this._domain = new DomainRepository(db);
             this._config = config;
@@ -47,8 +49,8 @@ namespace {{packageName}}.API.Controllers
             try
             {
                 {{#returnType}}
-                    {{>returnDataType}} returnData = _domain.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
-                    return new OkObjectResult(returnData);{{/returnType}}{{^returnType}}
+                    {{>returnDataType}} returnData = _domain.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+                    return Ok(returnData);{{/returnType}}{{^returnType}}
                     return Ok();{{/returnType}}
             }
             catch (Exception e)

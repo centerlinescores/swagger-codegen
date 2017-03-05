@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using {{packageName}}.API.Models;
 
 namespace {{packageName}}.Data
 {
@@ -13,13 +14,6 @@ namespace {{packageName}}.Data
         {
             this._db = _db;
         }
-
-        {{#operations}}
-        public {{#returnType}}{{>returnDataType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
-        {
-            throw new NotImplementedException();
-        }
-        {{/operations}}
 
         public class Error
         {

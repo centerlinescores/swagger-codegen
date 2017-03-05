@@ -10,7 +10,7 @@ namespace {{packageName}}.Data
     public partial class DomainRepository
     {
         {{#operation}}
-        public {{#returnType}}{{>returnDataType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        public {{#returnType}}{{>returnDataType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{&dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
             throw new NotImplementedException();
         }
