@@ -21,18 +21,18 @@ namespace {{packageName}}.API.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
-{{#vars}}        /// <param name="{baseNname}}">{{#description}}{{description}}{{/description}}{{^description}}{baseNname}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
+{{#vars}}        /// <param name="{{baseName}}">{{#description}}{{description}}{{/description}}{{^description}}{{baseName}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
 {{/vars}}
-        public {{classname}}({{#vars}}{{{datatype}}}baseN{{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
+        public {{classname}}({{#vars}}{{{datatype}}} {{baseName}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
         {
             {{#vars}}{{#required}}// to ensure "{{baseName}}" is required (not null)
             if ({{baseName}} == null)
             {
-                throw new InvalidDataException("{baseNname}} is a required property for {{classname}} and cannot be null");
+                throw new InvalidDataException("{{baseName}} is a required property for {{classname}} and cannot be null");
             }
             else
             {
-                this.{{baseName}} = {baseNname}};
+                this.{{baseName}} = {{baseName}};
             }
             {{/required}}{{/vars}}{{#vars}}{{^required}}{{#defaultValue}}// use default value if no "{{baseName}}" provided
             if ({{baseName}} == null)
@@ -41,9 +41,9 @@ namespace {{packageName}}.API.Models
             }
             else
             {
-                this.{{baseName}} = {baseNname}};
+                this.{{baseName}} = {{baseName}};
             }
-            {{/defaultValue}}{{^defaultValue}}this.{{baseName}} = {baseNname}};
+            {{/defaultValue}}{{^defaultValue}}this.{{baseName}} = {{baseName}};
             {{/defaultValue}}{{/required}}{{/vars}}
         }
 
@@ -64,7 +64,7 @@ namespace {{packageName}}.API.Models
             var sb = new StringBuilder();
             sb.Append("class {{classname}} {\n");
             {{#vars}}
-            sb.Append(" baseN{{name}}: ").Append({{baseName}}).Append("\n");
+            sb.Append("  {{baseName}}: ").Append({{baseName}}).Append("\n");
             {{/vars}}
             sb.Append("}\n");
             return sb.ToString();
