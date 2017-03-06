@@ -16,45 +16,42 @@ namespace {{packageName}}.API.Models
     /// <summary>
     /// {{description}}
     /// </summary>
-    [DataContract]
-    public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
+    public partial class {{classname}} {{#parent}}:{{{parent}}}{{/parent}}
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
-{{#vars}}        /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
+{{#vars}}        /// <param name="{baseNname}}">{{#description}}{{description}}{{/description}}{{^description}}{baseNname}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
 {{/vars}}
-        public {{classname}}({{#vars}}{{{datatype}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
+        public {{classname}}({{#vars}}{{{datatype}}}baseN{{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
         {
-            {{#vars}}{{#required}}// to ensure "{{name}}" is required (not null)
-            if ({{name}} == null)
+            {{#vars}}{{#required}}// to ensure "{{baseName}}" is required (not null)
+            if ({{baseName}} == null)
             {
-                throw new InvalidDataException("{{name}} is a required property for {{classname}} and cannot be null");
+                throw new InvalidDataException("{baseNname}} is a required property for {{classname}} and cannot be null");
             }
             else
             {
-                this.{{name}} = {{name}};
+                this.{{baseName}} = {baseNname}};
             }
-            {{/required}}{{/vars}}{{#vars}}{{^required}}{{#defaultValue}}// use default value if no "{{name}}" provided
-            if ({{name}} == null)
+            {{/required}}{{/vars}}{{#vars}}{{^required}}{{#defaultValue}}// use default value if no "{{baseName}}" provided
+            if ({{baseName}} == null)
             {
-                this.{{name}} = {{{defaultValue}}};
+                this.{{baseName}} = {{{defaultValue}}};
             }
             else
             {
-                this.{{name}} = {{name}};
+                this.{{baseName}} = {baseNname}};
             }
-            {{/defaultValue}}{{^defaultValue}}this.{{name}} = {{name}};
+            {{/defaultValue}}{{^defaultValue}}this.{{baseName}} = {baseNname}};
             {{/defaultValue}}{{/required}}{{/vars}}
         }
 
         {{#vars}}
         /// <summary>
-        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
-        /// </summary>{{#description}}
-        /// <value>{{{description}}}</value>{{/description}}
-        [DataMember(Name="{{baseName}}")]
-        public {{{datatype}}} {{name}} { get; set; }
+        /// {{^description}}Gets or Sets {{{baseName}}}{{/description}}{{#description}}{{{description}}}{{/description}}
+        /// </summary>       
+        public {{{datatype}}} {{baseName}} { get; set; }
 
         {{/vars}}
 
@@ -67,7 +64,7 @@ namespace {{packageName}}.API.Models
             var sb = new StringBuilder();
             sb.Append("class {{classname}} {\n");
             {{#vars}}
-            sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
+            sb.Append(" baseN{{name}}: ").Append({{baseName}}).Append("\n");
             {{/vars}}
             sb.Append("}\n");
             return sb.ToString();
@@ -108,14 +105,14 @@ namespace {{packageName}}.API.Models
 
             return {{#vars}}{{#isNotContainer}}
                 (
-                    this.{{name}} == other.{{name}} ||
-                    this.{{name}} != null &&
-                    this.{{name}}.Equals(other.{{name}})
+                    this.{{baseName}} == other.{{baseName}} ||
+                    this.{{baseName}} != null &&
+                    this.{{baseName}}.Equals(other.{{baseName}})
                 ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{^isNotContainer}}
                 (
-                    this.{{name}} == other.{{name}} ||
-                    this.{{name}} != null &&
-                    this.{{name}}.SequenceEqual(other.{{name}})
+                    this.{{baseName}} == other.{{baseName}} ||
+                    this.{{baseName}} != null &&
+                    this.{{baseName}}.SequenceEqual(other.{{baseName}})
                 ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{/vars}}{{^vars}}false{{/vars}};
         }
 
@@ -131,8 +128,8 @@ namespace {{packageName}}.API.Models
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
                 {{#vars}}
-                    if (this.{{name}} != null)
-                    hash = hash * 59 + this.{{name}}.GetHashCode();
+                    if (this.{{baseName}} != null)
+                    hash = hash * 59 + this.{{baseName}}.GetHashCode();
                 {{/vars}}
                 return hash;
             }
