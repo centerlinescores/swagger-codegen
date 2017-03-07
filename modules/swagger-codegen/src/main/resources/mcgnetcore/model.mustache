@@ -47,6 +47,11 @@ namespace {{packageName}}.API.Models
             {{/defaultValue}}{{/required}}{{/vars}}
         }
 
+        public {{classname}}() {
+            {{#vars}}{{#isListContainer}}{{baseName}} = new {{{datatype}}}();
+            {{/isListContainer}}{{/vars}}
+        }
+
         {{#vars}}
         /// <summary>
         /// {{^description}}Gets or Sets {{{baseName}}}{{/description}}{{#description}}{{{description}}}{{/description}}

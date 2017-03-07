@@ -34,17 +34,21 @@ cp -f $SWAGGERFILE ./swagger.yaml
 
 echo -e "\e[34m --> Generate API code...\e[0m"
 ./swaggerdocker.sh generate -i swagger.yaml -l aspnetcore -t $TEMPLATES -o /gen/mcgnetcore -c ./config.json
+./swaggerdocker.sh generate -i swagger.yaml -l typescript-angular2 -o /gen/mcgnetcore -c ./config.json
 
 if [ $push == 'y' ]
 then 
     echo -e "\e[34m --> Pushing API changes to git repo...\n With Message= $msg \e[0m"
     cp ./mcgnetcore/src/CenterlineScores/Models/* ~/cls-core/cls-model/Models/api/
     cp ./mcgnetcore/src/CenterlineScores/Controllers/*.cs ~/cls-core/cls-core/Controllers/api/
-    cp ./mcgnetcore/src/CenterlineScores/Controllers/Data/*.cs ~/cls-core/cls-model/Data/
+    cp ./mcgnetcore/src/CenterlineScores/Controllers/DomainOps/*.cs ~/cls-core/cls-model/DomainOps/
     cp ./mcgnetcore/src/CenterlineScores/DomainRepository.cs ~/cls-core/cls-model/Data/
+    cp ./mcgnetcore/model/* ~/cls-core/cls-core/ClientApp/app/models/
+    cp ./mcgnetcore/api/* ~/cls-core/cls-core/ClientApp/app/api/
+    cp ./mcgnetcore/variables.ts ~/cls-core/cls-core/ClientApp/app/variables.ts
     cd ~/cls-core
     export DT=`date +%Y%m%d-%H%M%S`
     git add -A
-    git commit -m "Swagger API Update of $DT : $msg"
+    git commit -m "$msg - _automated update from Swagger Codegen_ - $DT"
     git push
 fi

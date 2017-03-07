@@ -7,9 +7,8 @@ import { Response, ResponseContentType }                     from '@angular/http
 import { Observable }                                        from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import * as models                                           from '../model/models';
+import * as models                                           from '../models/models';
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
 
 /* tslint:disable:no-unused-variable member-ordering */
 
@@ -24,14 +23,10 @@ import { Configuration }                                     from '../configurat
 export class {{classname}} {
     protected basePath = '{{{basePath}}}';
     public defaultHeaders: Headers = new Headers();
-    public configuration: Configuration = new Configuration();
 
-    constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string) {
         if (basePath) {
             this.basePath = basePath;
-        }
-        if (configuration) {
-            this.configuration = configuration;
         }
     }
 
